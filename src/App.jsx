@@ -9,12 +9,11 @@ import rmLogo from "/rickandmorty.svg";
 import "./App.css";
 import Header from "./components/container/Header";
 import Home from "./pages/home/Home";
-import Character from "./pages/character/character";
+import Character from "./pages/character/Character";
 import Error404 from "./pages/404/Error404";
 import AboutPage from "./pages/about-fags/AboutPage";
 
 function App() {
-
   //Get path route through useParams:
   const CharacterSelector = () => {
     const { id } = useParams();

@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ children, icon }) => {
+  const navigate = useNavigate();
   return (
     <header>
       <div className="Header-logo">
         <h1>
           <img src={icon} />
-          <a href="/"> Rick and Morty</a>
+          <span onClick={() => navigate("/")}> Rick and Morty</span>
         </h1>
       </div>
       <nav>
@@ -17,8 +19,11 @@ const Header = ({ children, icon }) => {
 };
 
 Header.propTypes = {
-  children: PropTypes.isRequired,
-  icon: PropTypes.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default Header;

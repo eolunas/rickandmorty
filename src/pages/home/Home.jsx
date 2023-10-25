@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../services/axiosService";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [characters, setCharacters] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     obtainCharacter();
@@ -16,16 +18,20 @@ const Home = () => {
       .catch((error) => console.log(error));
   };
 
+  const navigateTo = (id) => {
+    navigate(`/character/${id}`);
+  };
+  
   return (
     <div className="Characters">
       {characters != null &&
         characters.map((character, key) => {
           return (
             <article key={key} className="Character-item">
-              <a href={`#/${character.id}/`}>
+              <div onClick={() => navigateTo(character.id)}>
                 <img src={character.image} alt={character.name} />
                 <h2>{character.name}</h2>
-              </a>
+              </div>
             </article>
           );
         })}

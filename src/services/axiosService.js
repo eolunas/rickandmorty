@@ -1,9 +1,10 @@
 import APIRequest from "../utils/config/axios.config";
 
-export function getAllCharacter() {
-  return APIRequest.get("/character", {
+export function getData(id) {
+  const apiURL = id ? `/character/${id}` : "/character";
+  return APIRequest.get(apiURL, {
     validateStatus: function (status) {
-      return status < 500; // Resolve only if the status code is less than 500
+      return status < 500;
     },
   });
 }

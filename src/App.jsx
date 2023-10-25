@@ -1,35 +1,52 @@
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 import rmLogo from "/rickandmorty.svg";
 import "./App.css";
+import Header from "./components/container/Header";
+import Home from "./pages/home/Home";
+import Character from "./pages/character/character";
+import Error404 from "./pages/404/Error404";
+import AboutPage from "./pages/about-fags/AboutPage";
 
 function App() {
-  const [count, setCount] = useState(0);
+
+  //Get path route through useParams:
+  const CharacterSelector = () => {
+    const { id } = useParams();
+    return <Character id={id} />;
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={rmLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={rmLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => setCount((count) => count - 1)}>
-          Sub 1 point
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Router>
+        <Header icon={rmLogo}>
+          <Link to="/">| HOME |</Link>
+          <Link to="/character/1"> Character 1 |</Link>
+          <Link to="/character/2"> Character 2 |</Link>
+          <Link to="/about"> ABOUT |</Link>
+          <Link to="/404"> Error 404 |</Link>
+        </Header>
+        <main>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/character" element={<Character />} />
+            <Route
+              exact
+              path="/character/:id"
+              element={<CharacterSelector />}
+            />
+            {["about", "fags"].map((path, index) => (
+              <Route key={index} path={path} element={<AboutPage />} />
+            ))}
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </main>
+      </Router>
     </>
   );
 }

@@ -54,6 +54,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <div style={{height: "4rem"}}></div>
     </header>
   );
 };

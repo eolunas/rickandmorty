@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { getData } from "../../services/axiosService";
-import CharacterCard from "../../components/pure/CharacterCard";
+import CharacterCard from "../../components/container/CharacterCard";
 
 const Character = ({ id }) => {
   const [character, setCharacter] = useState(null);
 
   useEffect(() => {
     obtainCharacter();
-  }, [id]);
+  }, []);
 
   const obtainCharacter = () => {
     return getData(id)

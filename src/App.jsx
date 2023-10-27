@@ -1,18 +1,20 @@
 import { Routes, Route, useParams } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/container/Header";
 import Home from "./pages/home/Home";
 import Character from "./pages/character/Character";
 import Error404 from "./pages/404/Error404";
 import AboutPage from "./pages/about-fags/AboutPage";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import Favourites from "./pages/favorites/Favourites";
 
 function App() {
   //Get path route through useParams:
   const CharacterSelector = () => {
     const { id } = useParams();
-    return <Character id={id} />;
+    const ids = JSON.parse(id);
+    //if (ids != null) alert(ids);
+    //TODO: implement array of character [1,2,3,4]
+    return isNaN(ids) ? <Error404 /> : <Character id={id} />;
   };
 
   return (

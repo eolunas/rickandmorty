@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../services/axiosService";
 import Spinner from "react-bootstrap/Spinner";
-import "./Home.css";
-import CharacterCard from "../../components/pure/CharacterCard";
+import CharacterCard from "../../components/container/CharacterCard";
 import { Col, Container, Row } from "react-bootstrap";
 
 const Home = () => {
@@ -21,12 +20,12 @@ const Home = () => {
   };
 
   return (
-    <Container className="mt-5" fluid>
-      <Row className="show-grid">
+    <Container fluid>
+      <Row className="row-cols-auto justify-content-center">
         {characters != null ? (
           characters.map((character, key) => {
             return (
-              <Col className="d-flex justify-content-center" key={key}>
+              <Col key={key} className='m-3'>
                 <CharacterCard data={character} show={false} />
               </Col>
             );

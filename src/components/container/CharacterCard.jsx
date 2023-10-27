@@ -33,10 +33,13 @@ function CharacterCard({ id, data, show }) {
   return (
     <>
       {character != null ? (
-        <Card style={{ width: "18rem", margin: "3rem" }}>
-          <Card.Img variant="top" src={character.image} />
-          <Card.Body className="d-flex justify-content-between">
-            <div>
+        <Card style={{ width: "18rem" }}>
+          <Card.Img variant="top" src={character.image} alt={character.name} />
+          <Card.Body
+            style={{ minHeight: "7.2rem" }}
+            className="d-flex justify-content-between align-items-center"
+          >
+            <div style={{ flexBasis: "80%" }}>
               <Card.Title>{character.name}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 {character.species}
@@ -45,9 +48,9 @@ function CharacterCard({ id, data, show }) {
             {!show && (
               <Button
                 onClick={() => navigateTo(character.id)}
-                variant="primary"
+                variant="outline-success"
               >
-                More info
+                View More
               </Button>
             )}
           </Card.Body>
@@ -72,7 +75,7 @@ function CharacterCard({ id, data, show }) {
           )}
         </Card>
       ) : (
-        <Card style={{ width: "18rem", margin: "3rem"  }}>
+        <Card style={{ width: "18rem" }}>
           <Card.Img variant="top" src="holder.js/100px180" />
           <Card.Body>
             <Placeholder as={Card.Title} animation="glow">
@@ -83,7 +86,7 @@ function CharacterCard({ id, data, show }) {
               <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder.Button variant="primary" xs={6} />
+            <Placeholder.Button variant="secondary" xs={6} />
           </Card.Body>
         </Card>
       )}

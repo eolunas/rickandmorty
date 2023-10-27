@@ -8,3 +8,12 @@ export function getData(id) {
     },
   });
 }
+
+export function getDataPage(page) {
+  const apiURL = `/character/?page=${page}`;
+  return APIRequest.get(apiURL, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  });
+}

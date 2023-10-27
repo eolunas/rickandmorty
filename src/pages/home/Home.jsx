@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../services/axiosService";
 import { useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
+import './Home.css'
 
 const Home = () => {
   const [characters, setCharacters] = useState(null);
@@ -19,12 +21,12 @@ const Home = () => {
   };
 
   const navigateTo = (id) => {
-    navigate(`/character/${id}`);
+    navigate(`/rickandmorty/character/${id}`);
   };
-  
+
   return (
-    <div className="Characters">
-      {characters != null &&
+    <div className="characters-container">
+      {characters != null ? (
         characters.map((character, key) => {
           return (
             <article key={key} className="Character-item">
@@ -34,7 +36,10 @@ const Home = () => {
               </div>
             </article>
           );
-        })}
+        })
+      ) : (
+        <Spinner animation="grow" />
+      )}
     </div>
   );
 };

@@ -1,17 +1,12 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
-import rmLogo from "/rickandmorty.svg";
-import "./App.css";
+import { Routes, Route, useParams } from "react-router-dom";
 import Header from "./components/container/Header";
 import Home from "./pages/home/Home";
 import Character from "./pages/character/Character";
 import Error404 from "./pages/404/Error404";
 import AboutPage from "./pages/about-fags/AboutPage";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import Favourites from "./pages/favorites/Favourites";
 
 function App() {
   //Get path route through useParams:
@@ -22,30 +17,20 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Header icon={rmLogo}>
-          <Link to="/">| HOME |</Link>
-          <Link to="/character/1"> Character 1 |</Link>
-          <Link to="/character/2"> Character 2 |</Link>
-          <Link to="/about"> ABOUT |</Link>
-          <Link to="/404"> Error 404 |</Link>
-        </Header>
-        <main>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/character" element={<Character />} />
-            <Route
-              exact
-              path="/character/:id"
-              element={<CharacterSelector />}
-            />
-            {["about", "fags"].map((path, index) => (
-              <Route key={index} path={path} element={<AboutPage />} />
-            ))}
-            <Route path="*" element={<Error404 />} />
-          </Routes>
-        </main>
-      </Router>
+      <Header />
+      <Routes>
+        <Route exact path="/rickandmorty" element={<Home />} />
+        <Route
+          exact
+          path="/rickandmorty/character/:id"
+          element={<CharacterSelector />}
+        />
+        <Route exact path="/rickandmorty/favourites" element={<Favourites />} />
+        {["/rickandmorty/about", "/rickandmorty/fags"].map((path, index) => (
+          <Route key={index} path={path} element={<AboutPage />} />
+        ))}
+        <Route path="*" element={<Error404 />} />
+      </Routes>
     </>
   );
 }

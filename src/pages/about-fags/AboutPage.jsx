@@ -1,7 +1,7 @@
 const AboutPage = () => {
     return (
         <div>
-            Rick and Morty App implemented
+            Rick and Morty App implementation!!
         </div>
     );
 }

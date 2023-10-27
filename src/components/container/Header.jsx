@@ -1,29 +1,61 @@
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+// import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import rmLogo from "/rickandmorty.svg";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
-const Header = ({ children, icon }) => {
-  const navigate = useNavigate();
+const Header = () => {
   return (
     <header>
-      <div className="Header-logo">
-        <h1>
-          <img src={icon} />
-          <span onClick={() => navigate("/")}> Rick and Morty</span>
-        </h1>
-      </div>
-      <nav>
-        <h1>{children}</h1>
-      </nav>
+      <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+        <Container fluid>
+          <Navbar.Brand as={Link} to="/rickandmorty/">
+            <img
+              src={rmLogo}
+              alt="rickandmorty"
+              width="30"
+              height="30"
+              className="d-inline-block align-text-top"
+            />
+            <span> Rick and Morty</span>
+          </Navbar.Brand>
+          <Navbar.Collapse className="collapse navbar-collapse">
+            <Nav
+              className="justify-content-end flex-grow-1 pe-3"
+              style={{ maxHeight: "100px" }}
+            >
+              <Nav.Link as={Link} to="/rickandmorty/favourites">
+                Favourites
+              </Nav.Link>
+              <Nav.Link as={Link} to="/rickandmorty/about">
+                About
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </header>
   );
 };
 
-Header.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-  icon: PropTypes.string.isRequired,
-};
+// Header.propTypes = {
+//   children: PropTypes.oneOfType([
+//     PropTypes.arrayOf(PropTypes.node),
+//     PropTypes.node,
+//   ]).isRequired,
+//   icon: PropTypes.string.isRequired,
+// };
 
 export default Header;

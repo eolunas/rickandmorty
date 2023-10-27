@@ -22,6 +22,7 @@ const Header = () => {
             />
             <span> Rick and Morty</span>
           </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse className="collapse navbar-collapse">
             <Nav
               className="justify-content-end flex-grow-1 pe-3"
@@ -35,6 +36,13 @@ const Header = () => {
               </Nav.Link>
             </Nav>
             <Form className="d-flex">
+              <Form.Select aria-label="Default select example">
+                <option>Filter by</option>
+                <option value="name">Name</option>
+                <option value="species">Species</option>
+                <option value="status">Status</option>
+                <option value="gender">Gender</option>
+              </Form.Select>
               <Form.Control
                 type="search"
                 placeholder="Search"

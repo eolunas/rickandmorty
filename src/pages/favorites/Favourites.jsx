@@ -3,7 +3,7 @@ import './Favourites.css'
 const Favourites = () => {
   return (
     <div className="card-container">
-      <CharacterCard id={"5"}/>
+      <CharacterCard id={"20"}/>
     </div>
   );
 };

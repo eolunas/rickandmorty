@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../services/axiosService";
-import { useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import './Home.css'
+import "./Home.css";
+import CharacterCard from "../../components/pure/CharacterCard";
+import { Col, Container, Row } from "react-bootstrap";
 
 const Home = () => {
   const [characters, setCharacters] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     obtainCharacter();
@@ -20,27 +20,22 @@ const Home = () => {
       .catch((error) => console.log(error));
   };
 
-  const navigateTo = (id) => {
-    navigate(`/rickandmorty/character/${id}`);
-  };
-
   return (
-    <div className="characters-container">
-      {characters != null ? (
-        characters.map((character, key) => {
-          return (
-            <article key={key} className="Character-item">
-              <div onClick={() => navigateTo(character.id)}>
-                <img src={character.image} alt={character.name} />
-                <h2>{character.name}</h2>
-              </div>
-            </article>
-          );
-        })
-      ) : (
-        <Spinner animation="grow" />
-      )}
-    </div>
+    <Container className="mt-5" fluid>
+      <Row className="show-grid">
+        {characters != null ? (
+          characters.map((character, key) => {
+            return (
+              <Col className="d-flex justify-content-center" key={key}>
+                <CharacterCard data={character} show={false} />
+              </Col>
+            );
+          })
+        ) : (
+          <Spinner animation="grow" />
+        )}
+      </Row>
+    </Container>
   );
 };
 

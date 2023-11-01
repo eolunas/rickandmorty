@@ -1,66 +1,71 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import {
+  addToStorage,
+  loadStorage,
+  removeToStorage,
+} from "../../utils/storage";
 import { getDataPage } from "../../services/axiosService";
-import Spinner from "react-bootstrap/Spinner";
 import CharacterCard from "../../components/container/CharacterCard";
-import { Col, Container, Row } from "react-bootstrap";
+import CardsContainer from "../../components/container/CardsContainer";
+import ShadowCard from "../../components/pure/ShadowCard";
 
 const Home = () => {
+  const [favourites, setFavourites] = useState(null);
   const [characters, setCharacters] = useState(null);
+  const [loadingData, setLoadingData] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [page, setPage] = useState(1);
-  const [charger, setCharger] = useState(true);
-  const elementRef = useRef(null);
 
+  // Load character by consuming the API
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const firstEntry = entries[0];
-      if (firstEntry.isIntersecting && charger) {
-        obtainCharacters();
-      }
-    });
-    if (observer && elementRef.current) {
-      observer.observe(elementRef.current);
+    // Load favourites character from loca storage
+    if (!favourites) setFavourites(loadStorage());
+    if (loadingData) {
+      getDataPage(page)
+        .then((rta) => {
+          if (rta.status === 200) {
+            setCharacters((prevData) => {
+              if (!prevData) return rta.data.results;
+              else return [...prevData, ...rta.data.results];
+            });
+            setPage((prevPage) => prevPage + 1);
+            if (rta.data.info.next == null) setHasNextPage(false);
+          }
+        })
+        .catch((error) => console.log(error));
+      setLoadingData(false);
     }
-    return () => {
-      if (observer) observer.disconnect();
-    };
-  }, [characters]);
+  }, [loadingData]);
 
-  const obtainCharacters = () => {
-    return getDataPage(page)
-      .then((rta) => {
-        if (rta.status === 200) {
-          setCharacters((prevData) => {
-            if (!prevData) return rta.data.results;
-            else return [...prevData, ...rta.data.results];
-          });
-          setPage((prevPage) => prevPage + 1);
-          if (rta.data.info.next == null) setCharger(false);
-        }
-      })
-      .catch((error) => console.log(error));
+  // handle the favourites character
+  const handleStorage = (id) => {
+    if (!favourites.includes(id)) {
+      setFavourites(addToStorage(id));
+    } else {
+      setFavourites(removeToStorage(id));
+    }
   };
 
   return (
-    <Container fluid>
-      <Row className="row-cols-auto justify-content-center">
-        {characters != null ? (
-          characters.map((character, key) => {
-            return (
-              <Col key={key} className="m-3">
-                <CharacterCard data={character} show={false} />
-              </Col>
-            );
-          })
-        ) : (
-          <Spinner animation="grow" />
-        )}
-      </Row>
-      {charger && (
-        <div className="d-flex justify-content-center">
-          <Spinner ref={elementRef} animation="grow" />
-        </div>
+    <CardsContainer
+      hasNextPage={hasNextPage}
+      setLoadingData={() => setLoadingData(true)}
+    >
+      {characters != null ? (
+        characters.map((character, key) => {
+          character.isStored = favourites.includes(character.id);
+          return (
+            <CharacterCard
+              key={key}
+              data={character}
+              storageToggle={() => handleStorage(character.id)}
+            ></CharacterCard>
+          );
+        })
+      ) : (
+        <ShadowCard />
       )}
-    </Container>
+    </CardsContainer>
   );
 };
 

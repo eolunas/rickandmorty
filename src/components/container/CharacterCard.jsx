@@ -1,103 +1,92 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Placeholder from "react-bootstrap/Placeholder";
-import { getData } from "../../services/axiosService";
-import { ListGroup } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Button, Badge, Card, Col, ListGroup } from "react-bootstrap";
 
-function CharacterCard({ id, data, show }) {
-  const navigate = useNavigate();
-  const navigateTo = (id) => {
-    navigate(`/rickandmorty/character/${id}`);
-  };
-  const [character, setCharacter] = useState(null);
-
-  useEffect(() => {
-    obtainCharacter();
-  }, [id]);
-
-  const obtainCharacter = () => {
-    if (id != null) {
-      getData(id)
-        .then((rta) => {
-          if (rta.status === 200) setCharacter(rta.data);
-        })
-        .catch((error) => console.log(error));
-    } else {
-      setCharacter(data);
-    }
-  };
+function CharacterCard({ data, storageToggle }) {
+  const [open, setOpen] = useState(false);
+  const handleShow = () => setOpen((prevOpen) => !prevOpen);
 
   return (
-    <>
-      {character != null ? (
+    <Col className="m-3">
+      {
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={character.image} alt={character.name} />
+          <Card.Img variant="top" src={data.image} alt={data.name} />
           <Card.Body
             style={{ minHeight: "7.2rem" }}
             className="d-flex justify-content-between align-items-center"
           >
-            <div style={{ flexBasis: "80%" }}>
-              <Card.Title>{character.name}</Card.Title>
+            <div style={{ flexBasis: "85%" }}>
+              <Card.Title>
+                <strong>{data.name}</strong>
+              </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                {character.species}
+                {data.species}
               </Card.Subtitle>
             </div>
-            {!show && (
-              <Button
-                onClick={() => navigateTo(character.id)}
-                variant="outline-success"
-              >
-                View More
-              </Button>
-            )}
+            <Button
+              onClick={() => handleShow()}
+              variant={!open ? "outline-success" : "outline-warning"}
+              style={{ minWidth: "3rem" }}
+            >
+              {!open ? <strong>+</strong> : <strong>-</strong>}
+            </Button>
           </Card.Body>
-          {show && (
-            <ListGroup className="list-group-flush">
+          {open && (
+            <ListGroup className="list-group-flush ">
               <ListGroup.Item>
-                Episodes: <span>{character.episode.length}</span>
+                <span>
+                  <strong>Episodes</strong> : {data.episode.length}
+                </span>
               </ListGroup.Item>
               <ListGroup.Item>
-                Status: <span>{character.status}</span>
+                <span>
+                  <strong>Status</strong> : {data.status}
+                </span>
               </ListGroup.Item>
               <ListGroup.Item>
-                Gender: <span>{character.gender}</span>
+                <span>
+                  <strong>Gender</strong> : {data.gender}
+                </span>
               </ListGroup.Item>
-              <ListGroup.Item>
-                Origin: <span>{character.origin.name}</span>
+              <ListGroup.Item
+                style={{
+                  minHeight: "4.3rem",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span>
+                  <strong>Origin</strong> : {data.origin.name}
+                </span>
               </ListGroup.Item>
-              <ListGroup.Item>
-                Last location: {character.location.name}
+              <ListGroup.Item
+                style={{
+                  minHeight: "4.3rem",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span>
+                  <strong>Last location</strong> : {data.location.name}
+                </span>
               </ListGroup.Item>
+              <Button
+                onClick={() => storageToggle()}
+                variant={data.isStored ? "outline-danger" : "outline-success"}
+              >
+                {data.isStored ? "Remove from favourites" : "Add to favourites"}
+              </Button>
             </ListGroup>
           )}
         </Card>
-      ) : (
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src="holder.js/100px180" />
-          <Card.Body>
-            <Placeholder as={Card.Title} animation="glow">
-              <Placeholder xs={6} />
-            </Placeholder>
-            <Placeholder as={Card.Text} animation="glow">
-              <Placeholder xs={7} /> <Placeholder xs={4} />{" "}
-              <Placeholder xs={4} /> <Placeholder xs={6} />{" "}
-              <Placeholder xs={8} />
-            </Placeholder>
-            <Placeholder.Button variant="secondary" xs={6} />
-          </Card.Body>
-        </Card>
-      )}
-    </>
+      }
+    </Col>
   );
 }
 
 CharacterCard.propTypes = {
-  id: PropTypes.string,
   data: PropTypes.object,
-  show: PropTypes.bool,
+  storageToggle: PropTypes.func.isRequired,
 };
 
 export default CharacterCard;

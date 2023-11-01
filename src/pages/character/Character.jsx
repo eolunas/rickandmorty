@@ -20,7 +20,7 @@ const Character = ({ id }) => {
 
   return (
     <div className="p-3">
-      {character != null && <CharacterCard data={character} show={true} />}
+      {character != null && <CharacterCard data={character} showAll={true} />}
     </div>
   );
 };

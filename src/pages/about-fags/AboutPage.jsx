@@ -1,9 +1,9 @@
 const AboutPage = () => {
-    return (
-        <div>
-            Rick and Morty App implementation!!
-        </div>
-    );
-}
+  return (
+    <div>
+      <h1>Rick and Morty App implementation!!</h1>
+    </div>
+  );
+};
 
 export default AboutPage;

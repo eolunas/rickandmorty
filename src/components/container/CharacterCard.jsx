@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Button, Badge, Card, Col, ListGroup } from "react-bootstrap";
+import { Button, Card, Col, ListGroup } from "react-bootstrap";
 
 function CharacterCard({ data, storageToggle }) {
   const [open, setOpen] = useState(false);

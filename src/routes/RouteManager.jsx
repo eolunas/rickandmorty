@@ -22,20 +22,3 @@ const RouteManager = () => {
 };
 
 export default RouteManager;
-
-{
-  /* 
-  //Get path route through useParams:
-  const CharacterSelector = () => {
-    const { id } = useParams();
-    const ids = JSON.parse(id);
-    //if (ids != null) alert(ids);
-    //TODO: implement array of character [1,2,3,4]
-    return isNaN(ids) ? <Error404 /> : <Character id={id} />;
-  };
-<Route
-exact
-path="/rickandmorty/character/:id"
-element={<CharacterSelector />}
-/> */
-}

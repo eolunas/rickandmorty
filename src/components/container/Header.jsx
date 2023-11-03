@@ -1,10 +1,37 @@
 // import PropTypes from "prop-types";
 import rmLogo from "/rickandmorty.svg";
-import { Link } from "react-router-dom";
-import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Button,
+  Badge,
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import CustomModal from "./CustomModal";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+  const [filters, setFilters] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [filterType, setFilterType] = useState("");
+  let location = useLocation();
+
+  useEffect(() => {
+    const linkFilter = {
+      "/rickandmorty/": "episode",
+      "/rickandmorty/characters": "character",
+      "/rickandmorty/favourites": "character",
+      "/rickandmorty/locations": "location",
+    };
+    setFilterType(linkFilter[location.pathname]);
+  }, [location]);
+
+  let numFilter = Object.keys(filters).filter((key) =>
+    key.includes(filterType)
+  ).length;
+
   return (
     <header>
       <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
@@ -28,7 +55,7 @@ const Header = () => {
               <Nav.Link as={Link} to="/rickandmorty/favourites">
                 Favourites
               </Nav.Link>
-              <Nav.Link as={Link} to="/rickandmorty/location">
+              <Nav.Link as={Link} to="/rickandmorty/locations">
                 Locations
               </Nav.Link>
               <NavDropdown title="More" id="basic-nav-dropdown">
@@ -50,17 +77,23 @@ const Header = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
+
             <Button
               variant="outline-success"
-              onClick={() => alert("Open modal")}
+              onClick={() => setShowModal(true)}
             >
-              Filters
+              Filters <Badge bg="secondary">{numFilter > 0 && numFilter}</Badge>
             </Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       <div style={{ height: "4rem" }}>
-        <CustomModal />
+        <CustomModal
+          isActive={showModal}
+          onHidden={() => setShowModal(false)}
+          setFilters={(data) => setFilters(data)}
+          filterType={filterType}
+        ></CustomModal>
       </div>
     </header>
   );
@@ -75,23 +108,3 @@ const Header = () => {
 // };
 
 export default Header;
-
-{
-  /* TODO: Make the filter modal !! 
-  <Form className="d-flex">
-  <Form.Select aria-label="Default select example">
-    <option>Filter by</option>
-    <option value="name">Name</option>
-    <option value="species">Species</option>
-    <option value="status">Status</option>
-    <option value="gender">Gender</option>
-  </Form.Select>
-  <Form.Control
-    type="search"
-    placeholder="Search"
-    className="me-2"
-    aria-label="Search"
-  />
-  <Button variant="outline-success">Search</Button>
-</Form>; */
-}

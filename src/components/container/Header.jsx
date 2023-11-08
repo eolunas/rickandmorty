@@ -1,5 +1,7 @@
 // import PropTypes from "prop-types";
 import rmLogo from "/rickandmorty.svg";
+import titleImg from "../../assets/Rick_and_Morty.png";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Button,
@@ -10,9 +12,9 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import CustomModal from "./CustomModal";
-import { useEffect, useState } from "react";
 
 const Header = () => {
+  const [expanded, setExpanded] = useState(false);
   const [filters, setFilters] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState("");
@@ -34,9 +36,18 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+      <Navbar
+        fixed="top"
+        expand="lg"
+        className="bg-body-tertiary"
+        expanded={expanded}
+      >
         <Container fluid>
-          <Navbar.Brand as={Link} to="/rickandmorty/">
+          <Navbar.Brand
+            as={Link}
+            to="/rickandmorty/"
+            onClick={() => setExpanded(false)}
+          >
             <img
               src={rmLogo}
               alt="rickandmorty"
@@ -44,50 +55,82 @@ const Header = () => {
               height="30"
               className="d-inline-block align-text-top"
             />
-            <span> Rick and Morty</span>
+            {" "}
+            <img
+              src={titleImg}
+              alt="rick and morty title"
+              height="31"
+              className="d-inline-block align-text-top"
+            />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Toggle
+            onClick={() => setExpanded(expanded ? false : "expanded")}
+            aria-controls="navbarScroll"
+          />
           <Navbar.Collapse id="navbarScroll">
-            <Nav className="justify-content-start flex-grow-1 pe-3">
-              <Nav.Link as={Link} to="/rickandmorty/characters">
+            <Nav
+              className="justify-content-start flex-grow-1 pe-3"
+              navbarScroll
+            >
+              <Nav.Link
+                as={Link}
+                to="/rickandmorty/characters"
+                onClick={() => setExpanded(false)}
+              >
                 Characters
               </Nav.Link>
-              <Nav.Link as={Link} to="/rickandmorty/favourites">
+              <Nav.Link
+                as={Link}
+                to="/rickandmorty/favourites"
+                onClick={() => setExpanded(false)}
+              >
                 Favourites
               </Nav.Link>
-              <Nav.Link as={Link} to="/rickandmorty/locations">
+              <Nav.Link
+                as={Link}
+                to="/rickandmorty/locations"
+                onClick={() => setExpanded(false)}
+              >
                 Locations
               </Nav.Link>
               <NavDropdown title="More" id="basic-nav-dropdown">
                 <NavDropdown.Item
                   href="https://github.com/eolunas/rickandmorty"
                   target="_blank"
+                  onClick={() => setExpanded(false)}
                 >
                   Repository
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   href="https://rickandmortyapi.com/documentation"
                   target="_blank"
+                  onClick={() => setExpanded(false)}
                 >
                   API Docs
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/rickandmorty/about">
+                <NavDropdown.Item
+                  as={Link}
+                  to="/rickandmorty/about"
+                  onClick={() => setExpanded(false)}
+                >
                   About project
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
-
             <Button
               variant="outline-success"
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                setShowModal(true);
+                setExpanded(false);
+              }}
             >
               Filters <Badge bg="secondary">{numFilter > 0 && numFilter}</Badge>
             </Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div style={{ height: "4rem" }}>
+      <div style={{ height: "3.6rem" }}>
         <CustomModal
           isActive={showModal}
           onHidden={() => setShowModal(false)}

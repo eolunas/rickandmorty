@@ -11,6 +11,12 @@ const CustomModal = ({ isActive, onHidden, setFilters, filterType }) => {
     });
   };
 
+  const handleClear = () => {
+    setForm({});
+    setFilters({});
+    onHidden();
+  };
+
   const handleSubmit = () => {
     console.log(form);
     console.log(Object.keys(form).length);
@@ -175,6 +181,9 @@ const CustomModal = ({ isActive, onHidden, setFilters, filterType }) => {
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={onHidden}>
             Close
+          </Button>
+          <Button variant="outline-primary" onClick={handleClear}>
+            Clear
           </Button>
           <Button onClick={handleSubmit} variant="outline-success">
             Search

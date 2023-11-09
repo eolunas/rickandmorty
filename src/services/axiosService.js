@@ -17,3 +17,26 @@ export function getDataPage(page) {
     },
   });
 }
+
+export function getAllEpisodes(filters = "", data = []) {
+  const apiURL = `/episode/${filters}`;
+  return APIRequest.get(apiURL, {
+    validateStatus: function (status) {
+      return status < 500;
+    },
+  })
+    .then((res) => {
+      if (res.status === 200) {
+        // Save data:
+        data = !data ? [res.data.results] : [...data, ...res.data.results];
+        // Confirm next point:
+        if (res.data.info.next != null) {
+          const nextPage = res.data.info.next.slice(40);
+          return getAllEpisodes(nextPage, data);
+        } else {
+          return data;
+        }
+      }
+    })
+    .catch((error) => console.log(error));
+}

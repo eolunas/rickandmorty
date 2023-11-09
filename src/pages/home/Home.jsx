@@ -1,15 +1,9 @@
-import {
-  Accordion,
-  Card,
-  Col,
-  Container,
-  ListGroup,
-  Nav,
-  Row,
-} from "react-bootstrap";
+import { Card, Col, Container, ListGroup, Nav, Row } from "react-bootstrap";
 import portadeImg from "../../assets/Rick_and_Morty_Home.jpg";
 import titleImg from "../../assets/Rick_and_Morty.png";
+import "./Home.css";
 import { useState } from "react";
+import SeasonsContainer from "../../components/container/SeasonsContainer";
 
 const Home = () => {
   const [cardInfo, setCardInfo] = useState(0);
@@ -17,7 +11,7 @@ const Home = () => {
   return (
     <Container>
       <Row className="align-items-start my-3">
-        <Col xs={12} md={5}>
+        <Col xs={12} md={6}>
           <Card>
             <Card.Img src={portadeImg} alt="rick and morty portade" />
             <Card.Header>
@@ -93,7 +87,7 @@ const Home = () => {
             )}
           </Card>
         </Col>
-        <Col xs={12} md={7}>
+        <Col xs={12} md={6}>
           <Card>
             <img
               src={titleImg}
@@ -101,33 +95,7 @@ const Home = () => {
               style={{ width: "100%", padding: "3% 10%" }}
             />
           </Card>
-
-          <Accordion>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>Accordion Item #1</Accordion.Header>
-              <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="2">
-              <Accordion.Header>Accordion Item #2</Accordion.Header>
-              <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+          <SeasonsContainer filters={""} />
         </Col>
       </Row>
     </Container>

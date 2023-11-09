@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
-
 import { Container, Row, Spinner } from "react-bootstrap";
 
 const CardsContainer = ({ children, hasNextPage, setLoadingData }) => {

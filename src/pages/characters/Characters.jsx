@@ -18,7 +18,7 @@ const Characters = () => {
 
   // Load character by consuming the API
   useEffect(() => {
-    // Load favourites character from loca storage
+    // Load favourites character from local storage
     if (!favourites) setFavourites(loadStorage());
     if (loadingData) {
       getDataPage(page)

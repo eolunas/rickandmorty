@@ -1,37 +1,36 @@
 import PropTypes from "prop-types";
-import { Accordion, Badge, Button } from "react-bootstrap";
+import { Accordion, Badge } from "react-bootstrap";
+import CharacterContainer from "./CharacterContainer";
+import { useState } from "react";
+import { getData } from "../../services/axiosService";
 
 const EpisodeContainer = ({ episode }) => {
-  const characterStyle = {
-    borderStyle: "solid",
-    borderWidth: "0 0 1px 0",
-    borderColor: "#dee2e6",
-    padding: "10px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+  const [characters, setCharacters] = useState(null);
+
+  const showCharacters = async () => {
+    if (!characters)
+      await getData(episode.characters)
+        .then((res) => {
+          if (res.status === 200) {
+            setCharacters(res.data);
+          }
+        })
+        .catch((error) => console.log(error));
   };
 
   return (
-    <Accordion.Item eventKey={episode.id}>
+    <Accordion.Item eventKey={episode.id} onClick={() => showCharacters()}>
       <Accordion.Header>
         <Badge className="p-2" pill bg="light" text="dark">
           {episode.episode}
         </Badge>
-        {episode.name}
+        <span style={{ marginLeft: "15px" }}>{episode.name}</span>
       </Accordion.Header>
       <Accordion.Body className="p-0">
-        <div style={characterStyle}>
-          <div>
-            <img
-              src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-              alt="character profile"
-              style={{ width: "60px", borderRadius: "50%" }}
-            />
-            <span> Character 01</span>
-          </div>
-          <Button variant="outline-success">Add</Button>
-        </div>
+        {characters != null &&
+          characters.map((character, index) => {
+            return <CharacterContainer key={index} info={character} />;
+          })}
       </Accordion.Body>
     </Accordion.Item>
   );

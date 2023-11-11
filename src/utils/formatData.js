@@ -23,3 +23,7 @@ export const formatSeasonEpisodes = (rawData) => {
   });
   return data;
 };
+
+export const getProperty = (json, prop) => {
+  return Object.prototype.hasOwnProperty.call(json, prop) ? json[prop] : "";
+};

@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 import rmLogo from "/rickandmorty.svg";
 import titleImg from "../../assets/Rick_and_Morty.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Button,
@@ -12,10 +12,12 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import CustomModal from "./CustomModal";
+import { FilterContext } from "../../utils/context";
 
 const Header = () => {
+  const [filters, updateFilters] = useContext(FilterContext);
+
   const [expanded, setExpanded] = useState(false);
-  const [filters, setFilters] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [filterType, setFilterType] = useState("");
   let location = useLocation();
@@ -54,8 +56,7 @@ const Header = () => {
               width="30"
               height="30"
               className="d-inline-block align-text-top"
-            />
-            {" "}
+            />{" "}
             <img
               src={titleImg}
               alt="rick and morty title"
@@ -134,7 +135,7 @@ const Header = () => {
         <CustomModal
           isActive={showModal}
           onHidden={() => setShowModal(false)}
-          setFilters={(data) => setFilters(data)}
+          setFilters={(data) => updateFilters(data)}
           filterType={filterType}
         ></CustomModal>
       </div>

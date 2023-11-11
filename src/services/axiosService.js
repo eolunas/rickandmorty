@@ -1,4 +1,5 @@
 import APIRequest from "../utils/config/axios.config";
+import { getProperty } from "../utils/formatData";
 
 export function getData(id) {
   const apiURL = id ? `/character/${id}` : "/character";
@@ -18,8 +19,14 @@ export function getDataPage(page) {
   });
 }
 
-export function getAllEpisodes(filters = "", data = []) {
-  const apiURL = `/episode/${filters}`;
+export function getAllEpisodes(filters = {}, nextPage = "", data = []) {
+  const filterEmpty = Object.keys(filters).length === 0;
+  const name = getProperty(filters, "episode_name");
+  const episode = getProperty(filters, "episode_episode");
+  const query = `?name=${name}&episode=${episode}`;
+  const queryfilters = !filterEmpty ? query : nextPage;
+  const apiURL = `/episode/${queryfilters}`;
+
   return APIRequest.get(apiURL, {
     validateStatus: function (status) {
       return status < 500;
@@ -32,7 +39,7 @@ export function getAllEpisodes(filters = "", data = []) {
         // Confirm next point:
         if (res.data.info.next != null) {
           const nextPage = res.data.info.next.slice(40);
-          return getAllEpisodes(nextPage, data);
+          return getAllEpisodes({}, nextPage, data);
         } else {
           return data;
         }

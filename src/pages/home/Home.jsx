@@ -95,7 +95,7 @@ const Home = () => {
               style={{ width: "100%", padding: "3% 10%" }}
             />
           </Card>
-          <SeasonsContainer filters={""} />
+          <SeasonsContainer />
         </Col>
       </Row>
     </Container>

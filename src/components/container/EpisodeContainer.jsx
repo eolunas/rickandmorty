@@ -7,7 +7,7 @@ import useFavoriteStorage from "../../hooks/useFavoriteStorage";
 
 const EpisodeContainer = ({ episode }) => {
   const [characters, setCharacters] = useState(null);
-  const [items, addItem, removeItem] = useFavoriteStorage("R&M-Characters");
+  const [items, toggleItem] = useFavoriteStorage("R&M-Characters");
 
   const showCharacters = async () => {
     if (!characters)
@@ -18,14 +18,6 @@ const EpisodeContainer = ({ episode }) => {
           }
         })
         .catch((error) => console.log(error));
-  };
-
-  const handleStorage = (id) => {
-    if (!items.includes(id)) {
-      addItem(id);
-    } else {
-      removeItem(id);
-    }
   };
 
   return (
@@ -44,7 +36,7 @@ const EpisodeContainer = ({ episode }) => {
               <CharacterContainer
                 key={index}
                 info={character}
-                storageToggle={() => handleStorage(character.id)}
+                storageToggle={() => toggleItem(character.id)}
               />
             );
           })}

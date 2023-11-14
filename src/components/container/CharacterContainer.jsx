@@ -28,7 +28,11 @@ const CharacterContainer = ({ info, storageToggle }) => {
         />
         <span style={{ marginLeft: "10px" }}>{info.name}</span>
       </div>
-      <Button variant="outline-success" onClick={() => storageToggle()}>
+      <Button
+        variant="outline-success"
+        onClick={() => storageToggle()}
+        style={{ backgroundColor: info.isStored ? "#e6ffcc" : "#ffff" }}
+      >
         {info.isStored ? "💚" : "🤍"}
       </Button>
     </div>

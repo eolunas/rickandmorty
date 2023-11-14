@@ -88,11 +88,11 @@ const Home = () => {
           </Card>
         </Col>
         <Col xs={12} md={6}>
-          <Card>
+          <Card className="align-items-center">
             <img
               src={titleImg}
               alt="rick and morty title"
-              style={{ width: "100%", padding: "3% 10%" }}
+              style={{ width: "70%", padding: "3% 10%" }}
             />
           </Card>
           <SeasonsContainer />

@@ -14,22 +14,15 @@ const useFavoriteStorage = (storageName) => {
     const stringifydata = JSON.stringify(data);
     localStorage.setItem(storageName, stringifydata);
   };
-  
-  const addItem = (id) => {
-    if (!items.includes(id)) {
-      const newItems = [...items, id];
-      saveLocalStorage(newItems);
-    }
+
+  const toggleItem = (id) => {
+    let newItems;
+    if (!items.includes(id)) newItems = [...items, id];
+    else newItems = items.filter((item) => item != id);
+    saveLocalStorage(newItems);
   };
 
-  const removeItem = (id) => {
-    if (items.includes(id)) {
-      const newItems = items.filter((item) => item != id);
-      saveLocalStorage(newItems);
-    }
-  };
-
-  return [items, addItem, removeItem];
+  return [items, toggleItem];
 };
 
 export default useFavoriteStorage;

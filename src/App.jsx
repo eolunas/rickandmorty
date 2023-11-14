@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "./components/container/Header";
 import RouteManager from "./routes/RouteManager";
 import { useState, useMemo } from "react";

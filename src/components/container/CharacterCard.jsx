@@ -10,6 +10,20 @@ function CharacterCard({ data, storageToggle }) {
     <Col className="m-3">
       {
         <Card style={{ width: "18rem" }}>
+          <Button
+            style={{
+              position: "absolute",
+              left: "0",
+              margin: "5px",
+              border: "solid",
+              borderWidth: "1px",
+              borderColor: "#198754",
+              backgroundColor: data.isStored ? "#e6ffcc" : "#ffff",
+            }}
+            onClick={() => storageToggle()}
+          >
+            {data.isStored ? "💚" : "🤍"}
+          </Button>
           <Card.Img variant="top" src={data.image} alt={data.name} />
           <Card.Body
             style={{ minHeight: "7.2rem" }}
@@ -28,7 +42,11 @@ function CharacterCard({ data, storageToggle }) {
               variant={!open ? "outline-success" : "outline-warning"}
               style={{ minWidth: "3rem" }}
             >
-              {!open ? <strong>+</strong> : <strong>-</strong>}
+              {!open ? (
+                <i className="bi bi-folder2"></i>
+              ) : (
+                <i className="bi bi-folder2-open"></i>
+              )}
             </Button>
           </Card.Body>
           {open && (
@@ -70,12 +88,6 @@ function CharacterCard({ data, storageToggle }) {
                   <strong>Last location</strong> : {data.location.name}
                 </span>
               </ListGroup.Item>
-              <Button
-                onClick={() => storageToggle()}
-                variant={data.isStored ? "outline-danger" : "outline-success"}
-              >
-                {data.isStored ? "Remove from favourites" : "Add to favourites"}
-              </Button>
             </ListGroup>
           )}
         </Card>

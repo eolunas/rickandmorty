@@ -3,9 +3,11 @@ import { Accordion, Badge } from "react-bootstrap";
 import CharacterContainer from "./CharacterContainer";
 import { useState } from "react";
 import { getData } from "../../services/axiosService";
+import useFavoriteStorage from "../../hooks/useFavoriteStorage";
 
 const EpisodeContainer = ({ episode }) => {
   const [characters, setCharacters] = useState(null);
+  const [items, addItem, removeItem] = useFavoriteStorage("R&M-Characters");
 
   const showCharacters = async () => {
     if (!characters)
@@ -16,6 +18,14 @@ const EpisodeContainer = ({ episode }) => {
           }
         })
         .catch((error) => console.log(error));
+  };
+
+  const handleStorage = (id) => {
+    if (!items.includes(id)) {
+      addItem(id);
+    } else {
+      removeItem(id);
+    }
   };
 
   return (
@@ -29,7 +39,14 @@ const EpisodeContainer = ({ episode }) => {
       <Accordion.Body className="p-0">
         {characters != null &&
           characters.map((character, index) => {
-            return <CharacterContainer key={index} info={character} />;
+            character.isStored = items.includes(character.id);
+            return (
+              <CharacterContainer
+                key={index}
+                info={character}
+                storageToggle={() => handleStorage(character.id)}
+              />
+            );
           })}
       </Accordion.Body>
     </Accordion.Item>

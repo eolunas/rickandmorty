@@ -1,6 +1,7 @@
 import APIRequest from "../utils/config/axios.config";
 import { getProperty } from "../utils/formatData";
 
+// Functions for characters:
 export function getData(id) {
   const apiURL = id ? `/character/${id}` : "/character";
   return APIRequest.get(apiURL, {
@@ -19,6 +20,7 @@ export function getDataPage(page) {
   });
 }
 
+// Functions for episodes:
 export function getAllEpisodes(filters = {}, nextPage = "", data = []) {
   const filterEmpty = Object.keys(filters).length === 0;
   const name = getProperty(filters, "episode_name");

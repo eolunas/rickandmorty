@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
 
-const CharacterContainer = ({ info }) => {
+const CharacterContainer = ({ info, storageToggle }) => {
   const characterStyle = {
     borderStyle: "solid",
     borderWidth: "0 0 1px 0",
@@ -28,15 +28,16 @@ const CharacterContainer = ({ info }) => {
         />
         <span style={{ marginLeft: "10px" }}>{info.name}</span>
       </div>
-      <Button variant="outline-success">🤍</Button>
+      <Button variant="outline-success" onClick={() => storageToggle()}>
+        {info.isStored ? "💚" : "🤍"}
+      </Button>
     </div>
   );
 };
 
 CharacterContainer.propTypes = {
   info: PropTypes.object.isRequired,
+  storageToggle: PropTypes.func.isRequired,
 };
 
 export default CharacterContainer;
-
-// 🤍💚

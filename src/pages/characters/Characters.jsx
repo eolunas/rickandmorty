@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-  addToStorage,
-  loadStorage,
-  removeToStorage,
-} from "../../utils/storage";
 import { getDataPage } from "../../services/axiosService";
 import CharacterCard from "../../components/container/CharacterCard";
 import CardsContainer from "../../components/container/CardsContainer";
 import ShadowCard from "../../components/pure/ShadowCard";
+import useFavoriteStorage from "../../hooks/useFavoriteStorage";
 
 const Characters = () => {
-  const [favourites, setFavourites] = useState(null);
+  const [items, addItem, removeItem] = useFavoriteStorage("R&M-Characters");
+
   const [characters, setCharacters] = useState(null);
   const [loadingData, setLoadingData] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -18,8 +15,6 @@ const Characters = () => {
 
   // Load character by consuming the API
   useEffect(() => {
-    // Load favourites character from local storage
-    if (!favourites) setFavourites(loadStorage());
     if (loadingData) {
       getDataPage(page)
         .then((rta) => {
@@ -39,10 +34,10 @@ const Characters = () => {
 
   // handle the favourites character
   const handleStorage = (id) => {
-    if (!favourites.includes(id)) {
-      setFavourites(addToStorage(id));
+    if (!items.includes(id)) {
+      addItem(id);
     } else {
-      setFavourites(removeToStorage(id));
+      removeItem(id);
     }
   };
 
@@ -53,7 +48,7 @@ const Characters = () => {
     >
       {characters != null ? (
         characters.map((character, key) => {
-          character.isStored = favourites.includes(character.id);
+          character.isStored = items.includes(character.id);
           return (
             <CharacterCard
               key={key}

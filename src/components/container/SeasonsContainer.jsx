@@ -17,7 +17,6 @@ const SeasonsContainer = () => {
         setSeasonEpisodes(formatSeasonEpisodes(data));
       })
       .catch((error) => console.log(error));
-    console.log(filters);
   }, [filters]);
 
   return (

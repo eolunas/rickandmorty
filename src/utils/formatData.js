@@ -27,3 +27,19 @@ export const formatSeasonEpisodes = (rawData) => {
 export const getProperty = (json, prop) => {
   return Object.prototype.hasOwnProperty.call(json, prop) ? json[prop] : "";
 };
+
+export const getQueryParams = (filters = {}, base) => {
+  let query = null;
+  const filterKeys = Object.keys(filters).filter(
+    (item) => item.slice(0, base.length) === base
+  );
+  if (filterKeys.length) {
+    query = "?";
+    filterKeys.map((param) => {
+      const name = param.slice(base.length);
+      query += `${name}=${filters[param]}&`;
+    });
+    query = query.slice(0, -1);
+  }
+  return query;
+};

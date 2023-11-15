@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Container, Row, Spinner } from "react-bootstrap";
 import { getDataPage } from "../../services/axiosService";
+import { FilterContext } from "../../utils/context";
+import useFavoriteStorage from "../../hooks/useFavoriteStorage";
 import CharacterCard from "../../components/container/CharacterCard";
 import ShadowCard from "../../components/pure/ShadowCard";
-import useFavoriteStorage from "../../hooks/useFavoriteStorage";
-import { Container, Row, Spinner } from "react-bootstrap";
 import useOnScreen from "../../hooks/useOnScreen";
 
 const Characters = () => {
+  const [filters] = useContext(FilterContext);
   const [items, toggleItem] = useFavoriteStorage("R&M-Characters");
 
   const endOfList = useRef(null);
@@ -17,21 +19,28 @@ const Characters = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    if (hasNextPage) {
-      getDataPage(page)
-        .then((rta) => {
-          if (rta.status === 200) {
-            setCharacters((prevData) => {
-              if (!prevData) return rta.data.results;
-              else return [...prevData, ...rta.data.results];
-            });
-            setPage((prevPage) => prevPage + 1);
-            if (rta.data.info.next == null) setHasNextPage(false);
-          }
+    if (isOnScreen && hasNextPage) {
+      getDataPage(filters, page)
+        .then((data) => {
+          setCharacters((prevData) => {
+            if (!prevData) return data.results;
+            else return [...prevData, ...data.results];
+          });
+          setPage((prevPage) => prevPage + 1);
+          if (data.info.next == null) setHasNextPage(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          setHasNextPage(false);
+        });
     }
   }, [isOnScreen]);
+
+  useEffect(() => {
+    setPage(1);
+    setHasNextPage(true);
+    setCharacters(null);
+  }, [filters]);
 
   return (
     <Container fluid>
@@ -51,11 +60,13 @@ const Characters = () => {
           <ShadowCard />
         )}
       </Row>
-      {hasNextPage && (
-        <div className="d-flex justify-content-center">
-          <Spinner ref={endOfList} animation="grow" />
-        </div>
-      )}
+      <div
+        className={`${
+          hasNextPage ? "d-flex" : "d-none"
+        } justify-content-center`}
+      >
+        <Spinner ref={endOfList} animation="grow" />
+      </div>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import APIRequest from "../utils/config/axios.config";
-import { getProperty } from "../utils/formatData";
+import { getQueryParams } from "../utils/formatData";
 
 // Functions for characters:
 export function getData(id) {
@@ -11,22 +11,24 @@ export function getData(id) {
   });
 }
 
-export function getDataPage(page) {
-  const apiURL = `/character/?page=${page}`;
+export function getDataPage(filters, page) {
+  let newFilters = { ...filters, character_page: page };
+  const query = getQueryParams(newFilters, "character_");
+  const apiURL = `/character/${query}`;
   return APIRequest.get(apiURL, {
     validateStatus: function (status) {
       return status < 500;
     },
+  }).then((res) => {
+    if (res.status === 200) return res.data;
+    else throw new Error(`${res.status}`);
   });
 }
 
 // Functions for episodes:
 export function getAllEpisodes(filters = {}, nextPage = "", data = []) {
-  const filterEmpty = Object.keys(filters).length === 0;
-  const name = getProperty(filters, "episode_name");
-  const episode = getProperty(filters, "episode_episode");
-  const query = `?name=${name}&episode=${episode}`;
-  const queryfilters = !filterEmpty ? query : nextPage;
+  const query = getQueryParams(filters, "episode_");
+  const queryfilters = query ? query : nextPage;
   const apiURL = `/episode/${queryfilters}`;
 
   return APIRequest.get(apiURL, {
@@ -45,7 +47,7 @@ export function getAllEpisodes(filters = {}, nextPage = "", data = []) {
         } else {
           return data;
         }
-      }
+      } else throw new Error(`${res.status}`);
     })
     .catch((error) => console.log(error));
 }

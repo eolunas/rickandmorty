@@ -53,7 +53,7 @@ function CharacterCard({ data, storageToggle }) {
             <ListGroup className="list-group-flush ">
               <ListGroup.Item>
                 <span>
-                  <strong>Episodes</strong> : {data.episode.length}
+                  <strong># Episodes</strong> : {data.episode.length}
                 </span>
               </ListGroup.Item>
               <ListGroup.Item>

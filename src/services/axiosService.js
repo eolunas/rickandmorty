@@ -11,7 +11,7 @@ export function getData(id) {
   });
 }
 
-export function getDataPage(filters, page) {
+export function getDataPage(filters = {}, page = 1) {
   let newFilters = { ...filters, character_page: page };
   const query = getQueryParams(newFilters, "character_");
   const apiURL = `/character/${query}`;

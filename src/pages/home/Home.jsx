@@ -11,19 +11,19 @@ const Home = () => {
   return (
     <Container>
       <Row className="align-items-start my-3">
-        <Col xs={12} md={6}>
+        <Col xs={12} md={4}>
           <Card>
             <Card.Img src={portadeImg} alt="rick and morty portade" />
             <Card.Header>
               <Nav variant="tabs" defaultActiveKey="#genre">
                 <Nav.Item>
                   <Nav.Link href="#genre" onClick={() => setCardInfo(0)}>
-                    Description
+                    General
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="#moreinfo" onClick={() => setCardInfo(1)}>
-                    More info
+                    More
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -31,17 +31,17 @@ const Home = () => {
             {cardInfo == 0 && (
               <Card.Body>
                 <Card.Text>
-                  Rick and Morty is an American adult animated science fiction
-                  sitcom created by Justin Roiland and Dan Harmon for Cartoon
-                  Network{"'"}s nighttime programming block Adult Swim. The
-                  series follows the misadventures of Rick Sanchez, a cynical
-                  mad scientist, and his good-hearted but fretful grandson Morty
-                  Smith, who split their time between domestic life and
-                  interdimensional adventures that take place across an infinite
-                  number of realities, often traveling to other planets and
-                  dimensions through portals and on Rick{"'"}s flying saucer.
-                  The general concept of Rick and Morty relies on two
-                  conflicting scenarios: domestic family drama, and a
+                  <strong>Rick and Morty</strong> is an American adult animated
+                  science fiction sitcom created by Justin Roiland and Dan
+                  Harmon for Cartoon Network{"'"}s nighttime programming block
+                  Adult Swim. The series follows the misadventures of Rick
+                  Sanchez, a cynical mad scientist, and his good-hearted but
+                  fretful grandson Morty Smith, who split their time between
+                  domestic life and interdimensional adventures that take place
+                  across an infinite number of realities, often traveling to
+                  other planets and dimensions through portals and on Rick{"'"}s
+                  flying saucer. The general concept of Rick and Morty relies on
+                  two conflicting scenarios: domestic family drama, and a
                   misanthropic grandfather dragging his grandson into hijinks.
                 </Card.Text>
               </Card.Body>
@@ -87,7 +87,7 @@ const Home = () => {
             )}
           </Card>
         </Col>
-        <Col xs={12} md={6}>
+        <Col xs={12} md={8}>
           <Card className="align-items-center">
             <img
               src={titleImg}
